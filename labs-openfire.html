@@ -45,6 +45,8 @@ Example:
 
   document.addEventListener("user-created", function(e) {
     console.log(e.detail); // Prints "Example of an event"
+    var app = this.shadowRoot.querySelector('labs-openfire');
+    console.log('iets? ',app);
   });
 
   Polymer({
@@ -152,6 +154,7 @@ Example:
 
     var callback = function (status) {
         if (status === Strophe.Status.REGISTER) {
+          var that = this;
           console.log('trying to register user: ', username, ' pass:',pincode);
             conn2.register.fields.username = username;
             conn2.register.fields.password = pincode;
@@ -159,35 +162,7 @@ Example:
         } else if (status === Strophe.Status.REGISTERED) {
             console.log("registered!");
             console.log("username: ", that.username, ' pass: ', that.password);
-            //conn2.authenticate();
-
-            var username = that.username;
-            var password = that.password;
-
-            var event = new CustomEvent("user-created", { "detail": "Example of an event" });
-
-            // Dispatch/Trigger/Fire the event
-            document.dispatchEvent(event);
-
-            conn = new Openfire.Connection("ws://kingflurkel.dtdns.net:7070/ws/server");
-
-            conn.connect(username, password, function(status){
-        if (status === Strophe.Status.CONNECTED) {
-          console.log('connected');
-          that.joinRoom(username, password);
-          conn.addHandler(that.logIets);
-          conn.send($pres().tree());
-          //that.sendTest();
-          that.fire('logged-in');
-          that.connected = true;
-        } else if (status === Strophe.Status.DISCONNECTED) {
-            //$(document).trigger('disconnected');
-          //console.log('no yoooo');
-          that.fire('disconnected');
-          that.connected = false;
-        };
-      });
-
+            that.logIets();
         } else if (status === Strophe.Status.CONNECTED) {
             console.log("logged in!");
         } else {
