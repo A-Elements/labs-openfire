@@ -42,11 +42,12 @@ Example:
 
   var app = document.querySelector('#connect');
 
-  var registeruser = function(username, password) {
+  var registeruser = function(username, pincode) {
+    console.log('ik ga preberen om ne user te registreren met username: ', username, ' en pincode ', pincode);
     var callback = function (status) {
         if (status === Strophe.Status.REGISTER) {
           conn.register.fields.username = username+"@kingflurkel.dtdns.net";
-          conn.register.fields.password = password;
+          conn.register.fields.password = pincode;
           conn.register.submit();
           console.log("Submitted user for registration");
         } else if (status === Strophe.Status.REGISTERED) {
@@ -84,7 +85,7 @@ Example:
         notify: true
       },
 
-      password: {
+      pincode: {
         type: String,
         notify: true
       },
@@ -150,8 +151,8 @@ Example:
      Example: this.$.openfire.createUser(username, password);
      */
 
-    createUser: function(username, password){
-      registeruser(username, password);
+    createUser: function(username, pincode){
+      registeruser(username, pincode);
     },
 
     sendTest: function(){
