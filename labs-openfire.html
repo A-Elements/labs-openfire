@@ -39,8 +39,6 @@ Example:
   <iron-ajax
     id="ajax"
     url="http://kingflurkel.dtdns.net:9090/plugins/restapi/v1/users"
-    headers='{"Authorization": "2Pz2ac24tMFwO5ne"}, {"Content-Type": "application/json"}'
-    handle-as="json"
     method="post"
     last-response-changed="{{handleResponse}}"></iron-ajax>
   </template>
@@ -141,6 +139,7 @@ Example:
 
     createUser: function(username, pincode){
         var ajax = this.$.ajax;
+        ajax.headers = '{"Authorization": "2Pz2ac24tMFwO5ne"}, {"Content-Type": "application/json"}';
         ajax.body = '{"username": username, "password": pincode}';
         ajax.generateRequest();
     },
