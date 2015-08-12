@@ -56,16 +56,10 @@ Example:
             return true;
         }
     };
-      //var conn = new Openfire.Connection();
-      var conn2 = new Strophe.Connection("http://kingflurkel.dtdns.net:7070/http-bind/");
-      conn2.register.connect("http://kingflurkel.dtdns.net:7070/http-bind/", callback, 60, 5);
-
-    };
-
-
-  document.addEventListener("user-created", function(e) {
-    console.log(e.detail); // Prints "Example of an event"
-  });
+    
+    var conn2 = new Strophe.Connection("http://kingflurkel.dtdns.net:7070/http-bind/");
+    conn2.register.connect("http://kingflurkel.dtdns.net:7070/http-bind/", callback, 60, 5);
+  };
 
   Polymer({
     is: 'labs-openfire',
