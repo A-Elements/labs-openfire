@@ -129,7 +129,7 @@ Example:
     },
 
     _username: function(){
-      console.log("username changed: ", this.username, ' pass: ', this.password);
+      console.log("username changed: ", this.username, ' pass: ', this.pincode);
       //this.login();
     },
 
@@ -152,6 +152,7 @@ Example:
             console.log("registered!");
             console.log("username: ", that.username, ' pass: ', that.password);
             that.login(username, pincode);
+            that.fire('user-created');
         } else if (status === Strophe.Status.CONNECTED) {
             console.log("logged in!");
         } else {
