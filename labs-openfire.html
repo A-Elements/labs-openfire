@@ -130,6 +130,7 @@ Example:
      */
 
     createUser: function(username, password){
+      var that = this;
       var callback = function (status) {
         if (status === Strophe.Status.REGISTER) {
           connection.register.fields.username = username;
