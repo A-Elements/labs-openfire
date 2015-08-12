@@ -42,11 +42,10 @@ Example:
 
   var conn;
 
-
+  console.log('ken ik app? ', app);
+  
   document.addEventListener("user-created", function(e) {
     console.log(e.detail); // Prints "Example of an event"
-    var app = this.shadowRoot.querySelector('labs-openfire');
-    console.log('iets? ',app);
   });
 
   Polymer({
