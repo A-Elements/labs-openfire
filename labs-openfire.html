@@ -38,7 +38,7 @@ Example:
 <script>
 (function() {
 
-  var conn = new Openfire.Connection("ws://kingflurkel.dtdns.net:7070/ws/server");
+  var conn;
 
   var app = this;
 
@@ -168,6 +168,8 @@ Example:
     },
 
     login: function(){
+
+      conn = new Openfire.Connection("ws://kingflurkel.dtdns.net:7070/ws/server");
       
       var that = this;
       var username = this.username;
