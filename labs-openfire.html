@@ -131,8 +131,9 @@ Example:
      */
 
     createUser: function(username, pincode){
-      var that = this;
+      
      var callback = function (status) {
+      var that = this;
         if (status === Strophe.Status.REGISTER) {
           console.log('trying to register user: ', username, ' pass:',pincode);
             conn2.register.fields.username = username;
