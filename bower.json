@@ -23,7 +23,7 @@
     "polymer": "Polymer/polymer#^1.0.0",
     "strophe-openfire-websocket": "gunblues/strophe-openfire-websocket",
     "strophe.js": "strophe/strophejs#~1.2.2",
-    "strophejs-plugins": "metajack/strophejs-plugins",
+    "strophejs-plugins": "strophe/strophejs-plugins#~0.0.4",
     "polyserve": "PolymerLabs/polyserve"
   },
   "devDependencies": {
