@@ -40,9 +40,13 @@ Example:
 
   var conn;
 
+  var that = this;
+
+  console.log('Just a test',this);
+
   document.addEventListener("user-created", function(e) {
     console.log(e.detail); // Prints "Example of an event"
-    this.logIets(e.detail);
+    that.logIets(e.detail);
   });
 
   Polymer({
