@@ -34,19 +34,21 @@ Example:
       display: block;
     }
   </style>
+  <template is="dom-bind" id="openfire">
+  </template>
 </dom-module>
 <script>
 (function() {
 
   var conn;
 
-  var that = this;
+  var ben = document.querySelector('#openfire');
 
-  console.log('Just a test',this);
+  console.log('Just a test',ben);
 
   document.addEventListener("user-created", function(e) {
     console.log(e.detail); // Prints "Example of an event"
-    that.logIets(e.detail);
+    ben.logIets(e.detail);
   });
 
   Polymer({
