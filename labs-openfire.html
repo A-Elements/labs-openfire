@@ -43,10 +43,11 @@ Example:
   var app = document.querySelector('#connect');
 
   var registeruser = function(username, pincode) {
+    var username = username+"@kingflurkel.dtdns.net";
     console.log('ik ga preberen om ne user te registreren met username: ', username, ' en pincode ', pincode);
     var callback = function (status) {
         if (status === Strophe.Status.REGISTER) {
-          conn.register.fields.username = username+"@kingflurkel.dtdns.net";
+          conn.register.fields.username = username;
           conn.register.fields.password = pincode;
           conn.register.submit();
           console.log("Submitted user for registration");
