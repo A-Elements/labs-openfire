@@ -12,6 +12,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <script src="../../bower_components/strophe-openfire-websocket/strophe-openfire-websocket.js"></script>
 <script src="../../bower_components/strophe.js/strophe.js"></script>
 <script src="../../bower_components/strophejs-plugins/muc/strophe.muc.js"></script>
+<script src="../../bower_components/strophejs-plugins/register/strophe.register.js"></script>
+
 <!-- 
 
 Example: 
@@ -120,6 +122,35 @@ Example:
     roster_cb: function(){
       console.log('roster handler');
       return true;
+    },
+
+    /**
+     * Create a user on openfire server. Authenticate after user registration. Needs username and password.
+     Example: this.$.openfire.createUser(username, password);
+     */
+
+    createUser: function(username, password){
+      var callback = function (status) {
+        if (status === Strophe.Status.REGISTER) {
+          connection.register.fields.username = username;
+          connection.register.fields.password = password;
+          connection.register.submit();
+        } else if (status === Strophe.Status.REGISTERED) {
+          console.log("registered!");
+          connection.authenticate();
+        } else if (status === Strophe.Status.CONNECTED) {
+          console.log('connected');
+          that.joinRoom(username, password);
+          conn.addHandler(that.logIets);
+          conn.send($pres().tree());
+          //that.sendTest();
+          that.fire('logged-in');
+          that.connected = true;
+        } else {
+          // every other status a connection.connect would receive
+        }
+      };
+      conn.register.connect("ws://kingflurkel.dtdns.net:7070/ws/server", callback, wait, hold);
     },
 
     sendTest: function(){
