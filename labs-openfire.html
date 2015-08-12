@@ -146,11 +146,7 @@ Example:
     this.username = username;
     this.password = pincode;
 
-    
-      //var conn = new Openfire.Connection();
-      var conn2 = new Strophe.Connection("http://kingflurkel.dtdns.net:7070/http-bind/");
-      conn2.register.connect("http://kingflurkel.dtdns.net:7070/http-bind/", function (status) {
-        var thet = that;
+    var callback = function (status) {
         if (status === Strophe.Status.REGISTER) {
           console.log('trying to register user: ', username, ' pass:',pincode);
             conn2.register.fields.username = username;
@@ -159,14 +155,21 @@ Example:
         } else if (status === Strophe.Status.REGISTERED) {
             console.log("registered!");
             console.log("username: ", that.username, ' pass: ', that.password);
-            thet.login(username, pincode);
-            thet.fire('user-created');
+
+            var event = new CustomEvent("user-created", { "detail": "Example of an event" });
+
+// Dispatch/Trigger/Fire the event
+document.dispatchEvent(event);
+
         } else if (status === Strophe.Status.CONNECTED) {
             console.log("logged in!");
         } else {
             // every other status a connection.connect would receive
         }
-    }, 60, 5);
+    };
+      //var conn = new Openfire.Connection();
+      var conn2 = new Strophe.Connection("http://kingflurkel.dtdns.net:7070/http-bind/");
+      conn2.register.connect("http://kingflurkel.dtdns.net:7070/http-bind/", callback, 60, 5);
 },
 
 
