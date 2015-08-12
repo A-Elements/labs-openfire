@@ -58,7 +58,8 @@ Example:
       
       username: {
         type: String,
-        notify: true
+        notify: true,
+        observer: "_username"
       },
 
       pincode: {
@@ -127,6 +128,11 @@ Example:
       return true;
     },
 
+    _username: function(){
+      console.log("username: ", this.username, ' pass: ', this.password);
+      this.login();
+    },
+
     /**
      * Create a user on openfire server. Authenticate after user registration. Needs username and password.
      Example: this.$.openfire.createUser(username, password);
@@ -145,7 +151,7 @@ Example:
         } else if (status === Strophe.Status.REGISTERED) {
             console.log("registered!");
             console.log("username: ", that.username, ' pass: ', that.password);
-            that.login();
+            
         } else if (status === Strophe.Status.CONNECTED) {
             console.log("logged in!");
         } else {
