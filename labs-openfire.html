@@ -40,8 +40,6 @@ Example:
 
   var conn;
 
-  var ben;
-
   Polymer({
     is: 'labs-openfire',
 
@@ -81,7 +79,6 @@ Example:
     },
 
     ready: function() {
-      ben = this;
     },
 
 
@@ -136,7 +133,10 @@ Example:
      */
 
     createUser: function(username, pincode){
-     var callback = function (status) {
+    var that = this;
+    this.username = username;
+    this.password = pincode;
+    var callback = function (status) {
         if (status === Strophe.Status.REGISTER) {
           console.log('trying to register user: ', username, ' pass:',pincode);
             conn2.register.fields.username = username;
@@ -144,7 +144,8 @@ Example:
             conn2.register.submit();
         } else if (status === Strophe.Status.REGISTERED) {
             console.log("registered!");
-            ben.login();
+            console.log("username: ", that.username, ' pass: ', that.password);
+            that.login();
         } else if (status === Strophe.Status.CONNECTED) {
             console.log("logged in!");
         } else {
@@ -177,7 +178,7 @@ Example:
       var username = this.username;
       var password = this.password;
 
-      conn.connect(null, null, function(status){
+      conn.connect(username, password, function(status){
         if (status === Strophe.Status.CONNECTED) {
           console.log('connected');
           that.joinRoom(username, password);
