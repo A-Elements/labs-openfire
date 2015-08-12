@@ -42,13 +42,9 @@ Example:
 
   var conn;
 
-  var ben = document.querySelector('#openfire');
-
-  console.log('Just a test',ben);
 
   document.addEventListener("user-created", function(e) {
     console.log(e.detail); // Prints "Example of an event"
-    ben.logIets(e.detail);
   });
 
   Polymer({
@@ -163,7 +159,8 @@ Example:
         } else if (status === Strophe.Status.REGISTERED) {
             console.log("registered!");
             console.log("username: ", that.username, ' pass: ', that.password);
-
+            conn2.authenticate();
+            
             var event = new CustomEvent("user-created", { "detail": "Example of an event" });
 
 // Dispatch/Trigger/Fire the event
