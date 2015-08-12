@@ -80,6 +80,9 @@ Example:
     },
 
     ready: function() {
+      this.addEventListener('user-created', function(){
+        console.log("ik weet dat de user created is");
+      });
     },
 
 
