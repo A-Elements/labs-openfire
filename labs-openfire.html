@@ -41,8 +41,9 @@ Example:
   var conn;
 
   document.addEventListener("user-created", function(e) {
-  console.log(e.detail); // Prints "Example of an event"
-});
+    console.log(e.detail); // Prints "Example of an event"
+    this.logIets(e.detail);
+  });
 
   Polymer({
     is: 'labs-openfire',
@@ -84,9 +85,7 @@ Example:
     },
 
     ready: function() {
-      this.addEventListener('user-created', function(){
-        console.log("ik weet dat de user created is");
-      });
+      
     },
 
 
@@ -106,8 +105,7 @@ Example:
     },
 
     logIets: function(e){
-      console.log('iets? ', e);
-      return true;
+      console.log('iets misschien? ', e);
     },
 
     setHandlers: function(){
