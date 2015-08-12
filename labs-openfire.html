@@ -40,7 +40,7 @@ Example:
 
   var conn;
 
-  var app = Polymer.dom(labsOpenfire);
+  var ben;
 
   Polymer({
     is: 'labs-openfire',
@@ -78,6 +78,10 @@ Example:
         type: Boolean,
         value: false
       }
+    },
+
+    ready: function() {
+      ben = this;
     },
 
 
@@ -140,7 +144,7 @@ Example:
             conn2.register.submit();
         } else if (status === Strophe.Status.REGISTERED) {
             console.log("registered!");
-            app.login();
+            ben.login();
         } else if (status === Strophe.Status.CONNECTED) {
             console.log("logged in!");
         } else {
