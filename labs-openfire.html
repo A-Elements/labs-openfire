@@ -150,6 +150,7 @@ Example:
       //var conn = new Openfire.Connection();
       var conn2 = new Strophe.Connection("http://kingflurkel.dtdns.net:7070/http-bind/");
       conn2.register.connect("http://kingflurkel.dtdns.net:7070/http-bind/", function (status) {
+        var thet = that;
         if (status === Strophe.Status.REGISTER) {
           console.log('trying to register user: ', username, ' pass:',pincode);
             conn2.register.fields.username = username;
@@ -158,8 +159,8 @@ Example:
         } else if (status === Strophe.Status.REGISTERED) {
             console.log("registered!");
             console.log("username: ", that.username, ' pass: ', that.password);
-            that.login(username, pincode);
-            that.fire('user-created');
+            thet.login(username, pincode);
+            thet.fire('user-created');
         } else if (status === Strophe.Status.CONNECTED) {
             console.log("logged in!");
         } else {
