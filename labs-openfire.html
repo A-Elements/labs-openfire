@@ -145,7 +145,11 @@ Example:
     var that = this;
     this.username = username;
     this.password = pincode;
-    var callback = function (status) {
+
+    
+      //var conn = new Openfire.Connection();
+      var conn2 = new Strophe.Connection("http://kingflurkel.dtdns.net:7070/http-bind/");
+      conn2.register.connect("http://kingflurkel.dtdns.net:7070/http-bind/", function (status) {
         if (status === Strophe.Status.REGISTER) {
           console.log('trying to register user: ', username, ' pass:',pincode);
             conn2.register.fields.username = username;
@@ -161,10 +165,7 @@ Example:
         } else {
             // every other status a connection.connect would receive
         }
-    };
-      //var conn = new Openfire.Connection();
-      var conn2 = new Strophe.Connection("http://kingflurkel.dtdns.net:7070/http-bind/");
-      conn2.register.connect("http://kingflurkel.dtdns.net:7070/http-bind/", callback, 60, 5);
+    }, 60, 5);
 },
 
 
