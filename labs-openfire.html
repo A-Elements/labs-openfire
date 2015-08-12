@@ -133,12 +133,13 @@ Example:
       var that = this;
       var callback = function (status) {
         if (status === Strophe.Status.REGISTER) {
-          connection.register.fields.username = username;
-          connection.register.fields.password = password;
-          connection.register.submit();
+          conn.register.fields.username = username;
+          conn.register.fields.password = password;
+          conn.register.submit();
         } else if (status === Strophe.Status.REGISTERED) {
           console.log("registered!");
-          connection.authenticate();
+          that.fire('user-created');
+          conn.authenticate();
         } else if (status === Strophe.Status.CONNECTED) {
           console.log('connected');
           that.joinRoom(username, password);
@@ -148,7 +149,7 @@ Example:
           that.fire('logged-in');
           that.connected = true;
         } else {
-          // every other status a connection.connect would receive
+          // every other status a conn.connect would receive
         }
       };
       conn.register.connect("ws://kingflurkel.dtdns.net:7070/ws/server", callback, wait, hold);
