@@ -38,11 +38,11 @@ Example:
 <script>
 (function() {
 
+  var conn = new Openfire.Connection("ws://kingflurkel.dtdns.net:7070/ws/server");
 
-  var app = document.querySelector('#connect');
+  var app = this;
 
     
-
   Polymer({
     is: 'labs-openfire',
 
@@ -80,6 +80,8 @@ Example:
         value: false
       }
     },
+
+
 
     joinRoom: function(username, password){
       var that = this;
@@ -132,6 +134,7 @@ Example:
 
     createUser: function(username, pincode){
      var callback = function (status) {
+      var that = app;
         if (status === Strophe.Status.REGISTER) {
           console.log('trying to register user: ', username, ' pass:',pincode);
             conn2.register.fields.username = username;
@@ -139,7 +142,7 @@ Example:
             conn2.register.submit();
         } else if (status === Strophe.Status.REGISTERED) {
             console.log("registered!");
-            conn2.register.authenticate();
+            that.login();
         } else if (status === Strophe.Status.CONNECTED) {
             console.log("logged in!");
         } else {
@@ -165,8 +168,7 @@ Example:
     },
 
     login: function(){
-        var conn = new Openfire.Connection("ws://kingflurkel.dtdns.net:7070/ws/server");
-
+      
       var that = this;
       var username = this.username;
       var password = this.password;
