@@ -133,7 +133,7 @@ Example:
     createUser: function(username, pincode){
      var callback = function (status) {
         if (status === Strophe.Status.REGISTER) {
-          console.log('trying to register');
+          console.log('trying to register user: ', username, ' pass:',pincode);
             conn2.register.fields.username = username;
             conn2.register.fields.password = pincode;
             conn2.register.submit();
