@@ -9,7 +9,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <script src="../../bower_components/strophe-openfire-websocket/strophe-openfire-websocket.js"></script>
 <script src="../../bower_components/strophe.js/strophe.js"></script>
 <script src="../../bower_components/strophejs-plugins/muc/strophe.muc.js"></script>
@@ -35,13 +34,6 @@ Example:
       display: block;
     }
   </style>
-  <template>
-  <iron-ajax
-    id="ajax"
-    url="http://kingflurkel.dtdns.net:9090/plugins/restapi/v1/users"
-    method="post"
-    last-response-changed="{{handleResponse}}"></iron-ajax>
-  </template>
 </dom-module>
 <script>
 (function() {
@@ -49,6 +41,8 @@ Example:
   var conn = new Openfire.Connection("ws://kingflurkel.dtdns.net:7070/ws/server");
 
   var app = document.querySelector('#connect');
+
+  
 
   Polymer({
     is: 'labs-openfire',
@@ -138,14 +132,7 @@ Example:
      */
 
     createUser: function(username, pincode){
-        var ajax = this.$.ajax;
-        ajax.headers = '{"Authorization": "2Pz2ac24tMFwO5ne"}, {"Content-Type": "application/json"}';
-        ajax.body = '{"username": username, "password": pincode}';
-        ajax.generateRequest();
-    },
-
-    handleResponse: function(){
-      console.log('het heeft iets gedaan');
+      registeruser(username, pincode);
     },
 
     sendTest: function(){
@@ -166,7 +153,7 @@ Example:
       var username = this.username;
       var password = this.password;
 
-      conn.connect(username, password, function(status){
+      conn.connect(null, null, function(status){
         if (status === Strophe.Status.CONNECTED) {
           console.log('connected');
           that.joinRoom(username, password);
