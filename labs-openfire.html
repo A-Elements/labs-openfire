@@ -42,8 +42,27 @@ Example:
 
   var conn;
 
-  console.log('ken ik app? ', app);
-  
+  var createuser = function(username, pincode){
+    var callback = function (status) {
+        if (status === Strophe.Status.REGISTER) {
+          var that = this;
+          console.log('trying to register user: ', username, ' pass:',pincode);
+            conn2.register.fields.username = username;
+            conn2.register.fields.password = pincode;
+            conn2.register.submit();
+        } else if (status === Strophe.Status.REGISTERED) {
+            console.log("registered!");
+            console.log("username: ", that.username, ' pass: ', that.password);
+            return true;
+        }
+    };
+      //var conn = new Openfire.Connection();
+      var conn2 = new Strophe.Connection("http://kingflurkel.dtdns.net:7070/http-bind/");
+      conn2.register.connect("http://kingflurkel.dtdns.net:7070/http-bind/", callback, 60, 5);
+
+    };
+
+
   document.addEventListener("user-created", function(e) {
     console.log(e.detail); // Prints "Example of an event"
   });
@@ -147,31 +166,11 @@ Example:
      */
 
     createUser: function(username, pincode){
-    var that = this;
-    this.username = username;
-    this.password = pincode;
-
-    var callback = function (status) {
-        if (status === Strophe.Status.REGISTER) {
-          var that = this;
-          console.log('trying to register user: ', username, ' pass:',pincode);
-            conn2.register.fields.username = username;
-            conn2.register.fields.password = pincode;
-            conn2.register.submit();
-        } else if (status === Strophe.Status.REGISTERED) {
-            console.log("registered!");
-            console.log("username: ", that.username, ' pass: ', that.password);
-            that.logIets();
-        } else if (status === Strophe.Status.CONNECTED) {
-            console.log("logged in!");
-        } else {
-            // every other status a connection.connect would receive
-        }
-    };
-      //var conn = new Openfire.Connection();
-      var conn2 = new Strophe.Connection("http://kingflurkel.dtdns.net:7070/http-bind/");
-      conn2.register.connect("http://kingflurkel.dtdns.net:7070/http-bind/", callback, 60, 5);
-},
+      this.registered = createuser(username, pincode);
+      if(this.registered){
+        console.log('user is registered');
+      };
+    },
 
 
     sendTest: function(){
