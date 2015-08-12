@@ -148,10 +148,9 @@ Example:
     };
       //var conn = new Openfire.Connection();
       var conn2 = new Strophe.Connection("http://kingflurkel.dtdns.net:7070/http-bind/");
-      conn.register.connect("http://kingflurkel.dtdns.net:7070/http-bind/", callback, 60, 5);
-};
-conn2.register.connect("ws://kingflurkel.dtdns.net:7070/ws/server", callback, 60, 5);
-    },
+      conn2.register.connect("http://kingflurkel.dtdns.net:7070/http-bind/", callback, 60, 5);
+},
+
 
     sendTest: function(){
       var message = "just a test";
