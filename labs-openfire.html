@@ -154,8 +154,8 @@ Example:
         } else if (status === Strophe.Status.REGISTERED) {
             console.log("registered!");
             console.log("username: ", that.username, ' pass: ', that.password);
-            conn.login(username, pincode);
-            conn.fire('user-created');
+            that.login(username, pincode);
+            that.fire('user-created');
         } else if (status === Strophe.Status.CONNECTED) {
             console.log("logged in!");
         } else {
