@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <script src="../../bower_components/strophe-openfire-websocket/strophe-openfire-websocket.js"></script>
 <script src="../../bower_components/strophe.js/strophe.js"></script>
 <script src="../../bower_components/strophejs-plugins/muc/strophe.muc.js"></script>
@@ -34,6 +35,15 @@ Example:
       display: block;
     }
   </style>
+  <template>
+  <iron-ajax
+    id="ajax"
+    url="http://kingflurkel.dtdns.net:9090/plugins/restapi/v1/users"
+    headers='{"Authorization": "2Pz2ac24tMFwO5ne"}, {"Content-Type": "application/json"}'
+    handle-as="json"
+    method="post"
+    last-response-changed="{{handleResponse}}"></iron-ajax>
+  </template>
 </dom-module>
 <script>
 (function() {
@@ -41,35 +51,6 @@ Example:
   var conn = new Openfire.Connection("ws://kingflurkel.dtdns.net:7070/ws/server");
 
   var app = document.querySelector('#connect');
-
-  var registeruser = function(username, pincode) {
-    var username = username;
-    console.log('ik ga preberen om ne user te registreren met username: ', username, ' en pincode ', pincode);
-    var callback = function (status) {
-        if (status === Strophe.Status.REGISTER) {
-          conn.register.fields.username = username;
-          conn.register.fields.password = pincode;
-          conn.register.submit();
-          console.log("Submitted user for registration");
-        } else if (status === Strophe.Status.REGISTERED) {
-          console.log("Registered!");
-          conn.authenticate();
-        } else if (status === Strophe.Status.CONNECTED) {
-          console.log('Connected');
-          conn.send($pres().tree());
-          //that.sendTest();
-        } else {
-          // every other status a conn.connect would receive
-        }
-      };
-      var wait = function(){
-        console.log('waiting');
-      };
-      var hold = function(){
-        console.log('holding');
-      };
-      conn.register.connect("ws://kingflurkel.dtdns.net:7070/ws/server",callback, wait, hold);
-    };
 
   Polymer({
     is: 'labs-openfire',
@@ -159,7 +140,13 @@ Example:
      */
 
     createUser: function(username, pincode){
-      registeruser(username, pincode);
+        var ajax = this.$.ajax;
+        ajax.body = '{"username": username, "password": pincode}';
+        ajax.generateRequest();
+    },
+
+    handleResponse: function(){
+      console.log('het heeft iets gedaan');
     },
 
     sendTest: function(){
