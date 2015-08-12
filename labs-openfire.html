@@ -43,7 +43,7 @@ Example:
   var app = document.querySelector('#connect');
 
   var registeruser = function(username, pincode) {
-    var username = username+"@kingflurkel.dtdns.net";
+    var username = username;
     console.log('ik ga preberen om ne user te registreren met username: ', username, ' en pincode ', pincode);
     var callback = function (status) {
         if (status === Strophe.Status.REGISTER) {
@@ -62,7 +62,13 @@ Example:
           // every other status a conn.connect would receive
         }
       };
-      conn.register.connect("ws://kingflurkel.dtdns.net:7070/ws/server", callback);
+      var wait = function(){
+        console.log('waiting');
+      };
+      var hold = function(){
+        console.log('holding');
+      };
+      conn.register.connect("ws://kingflurkel.dtdns.net:7070/ws/server",callback, wait, hold);
     };
 
   Polymer({
