@@ -40,6 +40,10 @@ Example:
 
   var conn;
 
+  document.addEventListener("user-created", function(e) {
+  console.log(e.detail); // Prints "Example of an event"
+});
+
   Polymer({
     is: 'labs-openfire',
 
