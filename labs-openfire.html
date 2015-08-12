@@ -42,6 +42,27 @@ Example:
 
   var app = document.querySelector('#connect');
 
+  var registeruser = function(username, password) {
+    var callback = function (status) {
+        if (status === Strophe.Status.REGISTER) {
+          conn.register.fields.username = username;
+          conn.register.fields.password = password;
+          conn.register.submit();
+          console.log("Submitted user for registration");
+        } else if (status === Strophe.Status.REGISTERED) {
+          console.log("Registered!");
+          conn.authenticate();
+        } else if (status === Strophe.Status.CONNECTED) {
+          console.log('Connected');
+          conn.send($pres().tree());
+          //that.sendTest();
+        } else {
+          // every other status a conn.connect would receive
+        }
+      };
+      conn.register.connect("ws://kingflurkel.dtdns.net:7070/ws/server", callback);
+    };
+
   Polymer({
     is: 'labs-openfire',
 
@@ -130,29 +151,7 @@ Example:
      */
 
     createUser: function(username, password){
-      var that = this;
-      var callback = function (status) {
-        if (status === Strophe.Status.REGISTER) {
-          conn.register.fields.username = username;
-          conn.register.fields.password = password;
-          conn.register.submit();
-        } else if (status === Strophe.Status.REGISTERED) {
-          console.log("registered!");
-          that.fire('user-created');
-          conn.authenticate();
-        } else if (status === Strophe.Status.CONNECTED) {
-          console.log('connected');
-          that.joinRoom(username, password);
-          conn.addHandler(that.logIets);
-          conn.send($pres().tree());
-          //that.sendTest();
-          that.fire('logged-in');
-          that.connected = true;
-        } else {
-          // every other status a conn.connect would receive
-        }
-      };
-      conn.register.connect("ws://kingflurkel.dtdns.net:7070/ws/server", callback);
+      registeruser(username, password);
     },
 
     sendTest: function(){
