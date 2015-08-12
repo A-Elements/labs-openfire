@@ -129,8 +129,8 @@ Example:
     },
 
     _username: function(){
-      console.log("username: ", this.username, ' pass: ', this.password);
-      this.login();
+      console.log("username changed: ", this.username, ' pass: ', this.password);
+      //this.login();
     },
 
     /**
@@ -151,7 +151,7 @@ Example:
         } else if (status === Strophe.Status.REGISTERED) {
             console.log("registered!");
             console.log("username: ", that.username, ' pass: ', that.password);
-            
+            that.login(username, pincode);
         } else if (status === Strophe.Status.CONNECTED) {
             console.log("logged in!");
         } else {
@@ -176,13 +176,12 @@ Example:
       return true;
     },
 
-    login: function(){
+    login: function(username, password){
 
       conn = new Openfire.Connection("ws://kingflurkel.dtdns.net:7070/ws/server");
       
       var that = this;
-      var username = this.username;
-      var password = this.password;
+      
 
       conn.connect(username, password, function(status){
         if (status === Strophe.Status.CONNECTED) {
