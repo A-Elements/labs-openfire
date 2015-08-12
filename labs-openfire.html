@@ -45,7 +45,7 @@ Example:
   var registeruser = function(username, password) {
     var callback = function (status) {
         if (status === Strophe.Status.REGISTER) {
-          conn.register.fields.username = username;
+          conn.register.fields.username = username+"@kingflurkel.dtdns.net";
           conn.register.fields.password = password;
           conn.register.submit();
           console.log("Submitted user for registration");
