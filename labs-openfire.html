@@ -4,11 +4,14 @@ MIT / Stad Antwerpen
 -->
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<script src="../../bower_components/strophe-openfire-websocket/strophe-openfire-websocket.js"></script>
+
 <script src="../../bower_components/strophe.js/strophe.js"></script>
+
 <script src="../../bower_components/strophejs-plugins/muc/strophe.muc.js"></script>
+
 <script src="../../bower_components/strophejs-plugins/register/strophe.register.js"></script>
 
+<script src="../../bower_components/strophe-openfire-websocket/strophe-openfire-websocket.js"></script>
 <!-- 
 
 Example: 
@@ -35,24 +38,35 @@ Example:
 <script>
 (function() {
 
-  var conn;
+  var connection; 
 
-  var createuser = function(username, pincode){
+  var maakuser = function(username, pincode, fn){
     var callback = function (status) {
         if (status === Strophe.Status.REGISTER) {
+          var that = this;
           console.log('trying to register user: ', username, ' pass:',pincode);
             conn2.register.fields.username = username;
             conn2.register.fields.password = pincode;
             conn2.register.submit();
         } else if (status === Strophe.Status.REGISTERED) {
             console.log("registered!");
-        }
-        return true;
+             if (fn) {
+                fn();
+            };
+            
+        };
     };
     
     var conn2 = new Strophe.Connection("http://kingflurkel.dtdns.net:7070/http-bind/");
     conn2.register.connect("http://kingflurkel.dtdns.net:7070/http-bind/", callback, 60, 5);
   };
+
+    var disconnect = function(){
+      console.log('trying to disconnect');
+      conn2.register.disconnect(function(e){
+        console.log('disconneting', e);
+      });
+    };
 
   Polymer({
     is: 'labs-openfire',
@@ -94,7 +108,11 @@ Example:
     },
 
     ready: function() {
-      
+      var that = this;
+      this.addEventListener('user-created', function(){
+        console.log('user created event fired');
+        connection = new Openfire.Connection("ws://kingflurkel.dtdns.net:7070/ws/server");
+      });
     },
 
     joinRoom: function(username, password){
@@ -145,25 +163,20 @@ Example:
       //this.login();
     },
 
+
+
     /**
      * Create a user on openfire server. Authenticate after user registration. Needs username and password.
      Example: this.$.openfire.createUser(username, password);
      */
 
     createUser: function(username, pincode){
-      
-      if(createuser(username, pincode)){
+      var that = this;
+      maakuser(username, pincode, function onUserRegistered() {
         console.log('user is registered');
-        this.fire('user-created', { detail: 'none'});
-      };
-
-      // this.registered = createuser(username, pincode, function(){
-      //   console.log('testing testing');
-      // });
-      // if(this.registered){
-      //   console.log('user is registered');
-      //   this.fire('user-created', { detail: 'none'});
-      // };
+        delete conn2;
+        that.login(username, pincode);
+      });
     },
 
     sendTest: function(){
@@ -180,12 +193,18 @@ Example:
 
     login: function(username, password){
 
-      conn = new Openfire.Connection("ws://kingflurkel.dtdns.net:7070/ws/server");
+      this.fire('user-created', { detail: 'none'});
+
+      console.log('start login procedure for user ', username, ' with pass ', password);
+
+      connection = new Openfire.Connection("ws://kingflurkel.dtdns.net:7070/ws/server");
+
+      console.log('connection: ', connection);
       
       var that = this;
-      
 
-      conn.connect(username, password, function(status){
+      connection.connect(username, password, function(status){
+        console.log('connect');
         if (status === Strophe.Status.CONNECTED) {
           console.log('connected');
           that.joinRoom(username, password);
@@ -195,6 +214,7 @@ Example:
           that.fire('logged-in');
           that.connected = true;
         } else if (status === Strophe.Status.DISCONNECTED) {
+          console.log('disconnect');
             //$(document).trigger('disconnected');
           //console.log('no yoooo');
           that.fire('disconnected');
