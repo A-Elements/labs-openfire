@@ -152,7 +152,9 @@ Example:
      */
 
     createUser: function(username, pincode){
-      this.registered = createuser(username, pincode);
+      this.registered = createuser(username, pincode, function(){
+        console.log('testing testing');
+      });
       if(this.registered){
         console.log('user is registered');
         this.fire('user-created', { detail: 'none'});
