@@ -47,7 +47,6 @@ Example:
             conn2.register.submit();
         } else if (status === Strophe.Status.REGISTERED) {
             console.log("registered!");
-            console.log("username: ", that.username, ' pass: ', that.password);
             return true;
         }
     };
@@ -98,8 +97,6 @@ Example:
     ready: function() {
       
     },
-
-
 
     joinRoom: function(username, password){
       var that = this;
